@@ -1,16 +1,14 @@
+var restify = require('restify');
 
-n fusc(n) {
-    if(n===0)
-        return 0
-    if(n===1)
-        return 1
-    if(n>1){
-        
-        if(n%2===0){
-            return fusc(n/2)
-        }else{
-            return fusc((n-1)/2)+fusc((n-1)/2+1)
-        }
-    }   
+function respond(req, res, next) {
+  res.send('hello ' + req.params.name);
+  next();
 }
-console.log(fusc(11))
+
+var server = restify.createServer();
+server.get('/hello/:name', respond);
+server.head('/hello/:name', respond);
+
+server.listen(8080, function() {
+  console.log('%s listening at %s', server.name, server.url);
+});
